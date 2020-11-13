@@ -10,7 +10,7 @@ use Tatter\Schemas\Structures\Table;
 use Tatter\Schemas\Structures\Field;
 
 class ModelHandler extends BaseDrafter implements DrafterInterface
-{	
+{
 	/**
 	 * The default database group.
 	 *
@@ -32,10 +32,10 @@ class ModelHandler extends BaseDrafter implements DrafterInterface
 	 * @param string      $group    A database group to use as a filter; null = default group, false = no filtering
 	 */
 	public function __construct(BaseConfig $config = null, $group = null)
-	{		
+	{
 		parent::__construct($config);
 		
-		// Load the default database group		
+		// Load the default database group
 		$config = config('Database');
 		$this->defaultGroup = $config->defaultGroup;
 		unset($config);
@@ -138,6 +138,7 @@ class ModelHandler extends BaseDrafter implements DrafterInterface
 		$models = [];
 
 		// Get each namespace
+		$namespaces = $loader->getNamespace();
 		foreach ($loader->getNamespace() as $namespace => $path)
 		{
 			// Skip namespaces that are ignored
@@ -160,6 +161,23 @@ class ModelHandler extends BaseDrafter implements DrafterInterface
 		// Filter loaded class on likely models
 		$classes = preg_grep('/model$/i', get_declared_classes());
 		
+		// Sort classes by namespace order
+		$sortArray = [];
+		foreach ($classes as $class)
+		{
+			foreach (array_keys($namespaces) as $index => $namespace)
+			{
+				// Store the namespace index if it belongs to the class
+				if (strpos($class, $namespace) === 0)
+				{
+					$sortArray[] = $index;
+					continue 2;
+				}
+			}
+			$sortArray[] = -1;
+		}
+		array_multisort($sortArray, SORT_NUMERIC, $classes);
+
 		// Try to load each class
 		foreach ($classes as $class)
 		{
