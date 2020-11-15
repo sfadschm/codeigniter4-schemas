@@ -111,7 +111,7 @@ tools you can use to overwrite or augment the generated schema.
 Currently supported handlers:
 
 * Database
-* Model (Only imports models within 'Models' subfolders of namespaces defined in CI's **$psr4** array.)
+* Model (Only imports models within 'Models' subfolders of namespaces defined in CI's `$psr4` array.)
 * PHP
 * Directory (PHP import only)
 
