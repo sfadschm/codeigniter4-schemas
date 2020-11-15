@@ -139,7 +139,7 @@ class ModelHandler extends BaseDrafter implements DrafterInterface
 
 		// Get each namespace
 		$namespaces = $loader->getNamespace();
-		foreach ($loader->getNamespace() as $namespace => $path)
+		foreach ($namespaces as $namespace => $path)
 		{
 			// Skip namespaces that are ignored
 			if (in_array($namespace, $this->config->ignoredNamespaces))
