@@ -159,7 +159,7 @@ class ModelHandler extends BaseDrafter implements DrafterInterface
 		}
 
 		// Filter loaded class on likely models
-		$classes = preg_grep('/model$/i', get_declared_classes());
+		$classes = preg_grep('/\\\Models\\\(.*?)Model$/i', get_declared_classes());
 		
 		// Sort classes by namespace order
 		$sortArray = [];
